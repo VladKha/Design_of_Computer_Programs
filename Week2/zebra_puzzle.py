@@ -19,24 +19,24 @@ def zebra_puzzle():
     orderings = list(itertools.permutations(houses))  # 1
     return next((WATER, ZEBRA)
                 for (red, green, ivory, yellow, blue) in debug.c(orderings)
-                if imright(green, ivory)  # 6
+                if imright(green, ivory)        # 6
                 for (Englishman, Spaniard, Ukrainian, Japanese, Norwegian) in debug.c(orderings)
-                if Englishman is red  # 2
-                if Norwegian is first  # 10
-                if next_to(Norwegian, blue)  # 15
+                if Englishman is red            # 2
+                if Norwegian is first           # 10
+                if next_to(Norwegian, blue)     # 15
                 for (coffee, tea, milk, oj, WATER) in debug.c(orderings)
-                if coffee is green  # 4
-                if Ukrainian is tea  # 5
-                if milk is middle  # 9
+                if coffee is green              # 4
+                if Ukrainian is tea             # 5
+                if milk is middle               # 9
                 for (OldGold, Kools, Chesterfields, LuckyStrike, Parliaments) in debug.c(orderings)
-                if Kools is yellow  # 8
-                if LuckyStrike is oj  # 13
-                if Japanese is Parliaments  # 14
+                if Kools is yellow              # 8
+                if LuckyStrike is oj            # 13
+                if Japanese is Parliaments      # 14
                 for (dog, snails, fox, horse, ZEBRA) in debug.c(orderings)
-                if Spaniard is dog  # 3
-                if OldGold is snails  # 7
+                if Spaniard is dog              # 3
+                if OldGold is snails            # 7
                 if next_to(Chesterfields, fox)  # 11
-                if next_to(Kools, horse)  # 12
+                if next_to(Kools, horse)        # 12
                 )
 
 
@@ -79,7 +79,8 @@ class Debugger:
     def __init__(self):
         Debugger.starts, Debugger.items = 0, 0
 
-    def c(self, sequence):
+    @staticmethod
+    def c(sequence):
         """Generate items in sequence; keeping counts as we go. c.starts is
         the number of sequenced started; c.items is number of items generated."""
         Debugger.starts += 1

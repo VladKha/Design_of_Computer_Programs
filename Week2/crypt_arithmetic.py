@@ -13,7 +13,7 @@ def solve(formula):
 
 def fill_in(formula):
     """Generate all possible fillings-in of letters in formula with digits."""
-    letters = ''.join(set(re.findall(r'[A-Z]', formula)))
+    letters = ''.join(set(re.findall('[A-Z]', formula)))
     for digits in itertools.permutations('1234567890', len(letters)):
         table = str.maketrans(letters, ''.join(digits))
         yield formula.translate(table)
@@ -28,7 +28,12 @@ def valid(f):
         return False
 
 
-solve('I + I == ME')
+solve('YOU == ME**2')
+
+
+
+
+
 
 
 # optimized variant
@@ -42,8 +47,7 @@ def faster_solve(formula):
             if f(*digits) is True:
                 table = str.maketrans(letters, ''.join(map(str, digits)))
                 result_formula = formula.translate(table)
-                if not re.search(r'\b0[0-9]', result_formula):
-                    print(result_formula)
+                print(result_formula)
         except ArithmeticError:
             pass
 
@@ -51,12 +55,22 @@ def faster_solve(formula):
 def compile_formula(formula, verbose=False):
     """Compile formula into a function. Also return letters found, as a str,
     in same order as params of function. For example, 'YOU == ME**2' returns
-    (lambda Y,M,E,U,O: (U+10*O+100*Y) == (E+10*M)**2), 'YMEUO' """
-    letters = ''.join(set(re.findall(r'[A-Z]', formula)))
+    (lambda Y,M,E,U,O: (U+10*O+100*Y) == (E+10*M)**2), 'YMEUO'.
+    The first digit of a multi-digit number can't be 0. So if YOU is a word
+    in the formula, and the function is called with Y equal to 0,
+    the function should return False."""
+    letters = ''.join(set(re.findall('[A-Z]', formula)))
+    first_letters = set(re.findall(r'\b([A-Z])[A-Z]', formula))
     params = ', '.join(letters)
-    tokens = map(compile_word, re.split(r'([A-Z]+)', formula))
+    tokens = map(compile_word, re.split('([A-Z]+)', formula))
     body = ''.join(tokens)
+
+    if first_letters:
+        tests = ' and '.join(L + ' != 0' for L in first_letters)
+        body = '{} and {}'.format(tests, body)
+
     f = 'lambda {}: {}'.format(params, body)
+
     if verbose:
         print(f)
     return eval(f), letters
@@ -75,4 +89,4 @@ def compile_word(word):
 
 
 print()
-faster_solve('I + I == ME')
+faster_solve('YOU == ME**2')
