@@ -25,6 +25,9 @@ def decorator(d):
     update_wrapper(_d, d)
     return _d
 
+# def decorator(d):             # alternative definition
+#     return lambda fn: update_wrapper(d(fn), fn)
+# decorator = decorator(decorator)
 
 @decorator
 def n_ary(f):
@@ -37,7 +40,6 @@ def n_ary(f):
 
 
 def lit(string):  return ('lit', string)
-
 @n_ary
 def seq(x, y):    return ('seq', x, y)
 def alt(x, y):    return ('alt', x, y)
