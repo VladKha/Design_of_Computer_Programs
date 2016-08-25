@@ -44,7 +44,7 @@ def grammar(description, whitespace=r'\s*'):
 
 
 def split(s, delimiter=None, maxsplit=-1):
-    return s.split(delimiter, maxsplit)
+    return s.strip().split(delimiter, maxsplit)
 
 
 def decorator(d):
@@ -114,7 +114,7 @@ value => string | number | object | array | true | false | null
 string => "[^"]*"
 number => int frac exp | int frac | int exp | int
 int => -?[1-9][0-9]*
-frac => [.][0-9]
+frac => [.][0-9]+
 exp => [eE][-+]?[0-9]+
 """, whitespace='\s*')
 
