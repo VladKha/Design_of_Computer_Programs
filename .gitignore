@@ -1,10 +1,9 @@
 # IntelliJ project files
-.idea
-*.iml
+.idea/
 out
 gen
 .DS_Store
 .gitignore
-.idea/
 python_tricks.py
 test.py
+Week3/__pycache__/
