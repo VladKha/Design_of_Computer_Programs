@@ -41,6 +41,7 @@ def add_to_frontier(frontier, path):
         del frontier[old]   # Old path was worse; delete it
     # Now add the new path and re-sort
     frontier.append(path)
+    frontier.sort(key=path_cost)
 
 
 def bsuccessors2(state):
