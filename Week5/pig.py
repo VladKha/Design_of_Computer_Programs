@@ -143,6 +143,10 @@ def test():
     for _ in range(10):
         winner = play_pig(always_hold, always_roll)
         assert winner.__name__ == 'always_roll'
+
+    A, B = hold_at(50), clueless
+    rolls = iter([6] * 9)
+    assert play_pig(A, B, rolls) == A
     return 'tests pass'
 
 
