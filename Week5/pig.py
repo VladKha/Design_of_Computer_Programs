@@ -104,7 +104,13 @@ print(test())
 # You may want to borrow from the random module to help generate die rolls.
 
 
-def play_pig(A, B):
+def dierolls():
+    """Generate die rolls"""
+    while True:
+        yield random.randint(1, 6)
+
+
+def play_pig(A, B, dierolls=dierolls()):
     """Play a game of pig between two players, represented by their strategies.
     Each time through the main loop we ask the current player for one decision,
     which must be 'hold' or 'roll', and we update the state accordingly.
@@ -122,7 +128,7 @@ def play_pig(A, B):
         if action == 'hold':
             state = hold(state)
         elif action == 'roll':
-            state = roll(state, random.randint(1, 6))
+            state = roll(state, next(dierolls))
 
 
 def always_roll(state):
