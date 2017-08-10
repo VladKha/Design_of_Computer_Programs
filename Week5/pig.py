@@ -92,3 +92,52 @@ def test():
     return 'tests pass'
 
 print(test())
+
+
+# -----------------
+# User Instructions
+#
+# Write a function, play_pig, that takes two strategy functions as input,
+# plays a game of pig between the two strategies, and returns the winning
+# strategy. Enter your code at line 41.
+#
+# You may want to borrow from the random module to help generate die rolls.
+
+
+def play_pig(A, B):
+    """Play a game of pig between two players, represented by their strategies.
+    Each time through the main loop we ask the current player for one decision,
+    which must be 'hold' or 'roll', and we update the state accordingly.
+    When one player's score exceeds the goal, return that player."""
+    strategies = [A, B]
+    state = (0, 0, 0, 0)
+    while True:
+        (p, me, you, pending) = state
+        if me >= goal:
+            return strategies[p]
+        elif you >= goal:
+            return strategies[other[p]]
+
+        action = strategies[p](state)
+        if action == 'hold':
+            state = hold(state)
+        elif action == 'roll':
+            state = roll(state, random.randint(1, 6))
+
+
+def always_roll(state):
+    return 'roll'
+
+
+def always_hold(state):
+    return 'hold'
+
+
+def test():
+    for _ in range(10):
+        winner = play_pig(always_hold, always_roll)
+        assert winner.__name__ == 'always_roll'
+    return 'tests pass'
+
+
+print(test())
