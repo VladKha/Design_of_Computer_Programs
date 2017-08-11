@@ -129,6 +129,8 @@ def play_pig(A, B, dierolls=dierolls()):
             state = hold(state)
         elif action == 'roll':
             state = roll(state, next(dierolls))
+        else:   # Illegal action - you lose!
+            return strategies[other[p]]
 
 
 def always_roll(state):
