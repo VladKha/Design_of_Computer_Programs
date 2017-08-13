@@ -40,3 +40,25 @@ def test():
 
 
 print(test())
+
+# -----------------
+# User Instructions
+#
+# Write a function, extend_prefix, nested in find_words,
+# that checks to see if the prefix is in WORDS and
+# adds that to results if it is.
+#
+# If not, your function should check to see if the prefix
+# is in PREFIXES, and if it is should recursively add letters
+# until the prefix is no longer valid.
+
+
+def find_words(letters, pre='', results=None):
+    if results is None:
+        results = set()
+    if pre in WORDS:
+        results.add(pre)
+    if pre in PREFIXES:
+        for L in letters:
+            find_words(letters.replace(L, '', 1), pre + L, results)
+    return results
