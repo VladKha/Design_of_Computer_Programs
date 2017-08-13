@@ -1,10 +1,10 @@
 # -----------------
 # User Instructions
 #
-# Write a function, add_suffixes, that takes as input a hand, a prefix we
-# have already found, and a result set we'd like to add to, and returns
-# the result set we have added to. For testing, you can assume that you
-# have access to a file called 'words4k.txt'
+# Write a function, longest_words, that takes as input a hand, and a set
+# of letters on the board, and returns all word plays, the longest first.
+# For testing, you can assume that you have access to a file called
+# 'words4k.txt'
 
 import time
 
@@ -42,6 +42,13 @@ def find_words(letters, pre='', results=None):
     return results
 
 
+def removed(letters, remove):
+    """Return a str of letters, but with each letter in remove removed once."""
+    for L in remove:
+        letters = letters.replace(L, '', 1)
+    return letters
+
+
 def word_plays(hand, board_letters):
     """Find all word plays from hand that can be made to abut with a letter on board."""
     # Find prefix + L + suffix; L from board_letters, rest from hand
@@ -73,11 +80,10 @@ def add_suffixes(hand, pre, results):
     return results
 
 
-def removed(letters, remove):
-    """Return a str of letters, but with each letter in remove removed once."""
-    for L in remove:
-        letters = letters.replace(L, '', 1)
-    return letters
+def longest_words(hand, board_letters):
+    """Return all word plays, longest first."""
+    words = word_plays(hand, board_letters)
+    return sorted(words, key=len, reverse=True)
 
 
 def timedcall(fn, *args):
@@ -146,6 +152,14 @@ def test_words():
     assert add_suffixes('SHERTO', 'CA', set()) == {'CASE', 'CAR', 'CARE', 'CAT', 'CARS'}
 
     assert add_suffixes('AEIOMRS', 'TH', set()) == {'THEM', 'THIS', 'THO', 'THEIR', 'THE', 'THOSE'}
+
+    assert (word_plays('ADEQUAT', set('IRE')) ==
+            {'DIE', 'ATE', 'READ', 'AIT', 'DE', 'IDEA', 'RET', 'QUID', 'DATE', 'RATE', 'ETA',
+             'QUIET', 'ERA', 'TIE', 'DEAR', 'AID', 'TRADE', 'TRUE', 'DEE', 'RED', 'RAD', 'TAR',
+             'TAE', 'TEAR', 'TEA', 'TED', 'TEE', 'QUITE', 'RE', 'RAT', 'QUADRATE', 'EAR', 'EAU',
+             'EAT', 'QAID', 'URD', 'DUI', 'DIT', 'AE', 'AI', 'ED', 'TI', 'IT', 'DUE', 'AQUAE', 'AR',
+             'ET', 'ID', 'ER', 'QUIT', 'ART', 'AREA', 'EQUID', 'RUE', 'TUI', 'ARE', 'QI',
+             'ADEQUATE', 'RUT'})
 
     t, results = timedcall(map, find_words, hands)
     for ((hand, expected), got) in zip(hands.items(), results):
