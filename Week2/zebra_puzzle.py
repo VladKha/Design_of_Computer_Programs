@@ -13,7 +13,7 @@ def next_to(h1, h2):
 
 
 def zebra_puzzle():
-    """Return a tuple (WATER, ZEBRA indicating their house numbers."""
+    """Return a tuple (WATER, ZEBRA) indicating their house numbers."""
     debug = Debugger()
     houses = first, _, middle, _, _ = [1, 2, 3, 4, 5]
     orderings = list(itertools.permutations(houses))  # 1
